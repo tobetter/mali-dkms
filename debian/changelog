@@ -1,0 +1,6 @@
+midgard-dkms (0.r2p0) stable; urgency=low
+
+  * Automatically packaged by DKMS.
+
+ -- Dynamic Kernel Modules Support Team <pkg-dkms-maint@lists.alioth.debian.org>  Thu, 05 Jan 2017 18:52:00 +0000
+

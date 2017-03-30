@@ -1,0 +1,11 @@
+Source: midgard-dkms
+Section: misc
+Priority: optional
+Maintainer: Dynamic Kernel Modules Support Team <pkg-dkms-maint@lists.alioth.debian.org>
+Build-Depends: debhelper (>= 7), dkms
+Standards-Version: 3.8.1
+
+Package: midgard-dkms
+Architecture: all
+Depends: dkms (>= 1.95), ${misc:Depends}
+Description: midgard driver in DKMS format.
