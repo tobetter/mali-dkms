@@ -1,5 +1,5 @@
 PACKAGE_VERSION="#MODULE_VERSION#"
-PACKAGE_NAME="mali-midgard-dkms"
+PACKAGE_NAME="mali-midgard"
 BUILT_MODULE_NAME[0]="mali_kbase"
 BUILD_EXCLUSIVE_ARCH="armhf|armel"
 MAKE[0]="make SCONS_CFLAGS='\
