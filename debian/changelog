@@ -1,6 +1,5 @@
-midgard-dkms (0.r2p0) stable; urgency=low
+mali-midgard (16.0-1) unstable; urgency=low
 
-  * Automatically packaged by DKMS.
+  * Initial packaging
 
- -- Dynamic Kernel Modules Support Team <pkg-dkms-maint@lists.alioth.debian.org>  Thu, 05 Jan 2017 18:52:00 +0000
-
+ -- Wookey <wookey@debian.org>  Thu, 03 Aug 2017 04:06:05 +0100

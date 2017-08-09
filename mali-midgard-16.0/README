@@ -1,0 +1,21 @@
+This repository contains the out-of-tree Linux kernel driver for the ARM Mali
+Midgard GPU.  It is based on the r16p0 release, called 16.0 in the Debian DKMS
+packages.  It also contains some patches to make it work with mainline device
+tree bindings backported to v4.9 kernel.  Newer kernel versions are not
+supported in this driver version.
+
+To use it with dkms, first clone this repository in /usr/src:
+
+  sudo clone https://git.collabora.com/git/user/gtucker/mali-midgard.git /usr/src/mali-midgard-16.0
+
+Then add it to dkms (will end up in /var/lib/dkms)
+
+  sudo dkms add -m mali-midgard -v 16.0
+
+Now you can decide to just build it to use it straight away:
+
+  sudo dkms build -m mali-midgard -v 16.0
+
+Or, make a Debian dkms source package:
+
+  sudo dkms mkdeb -m mali-midgard -v 16.0 --source-only
