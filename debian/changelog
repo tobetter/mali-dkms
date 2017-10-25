@@ -1,3 +1,9 @@
+mali-midgard (16.0-2) unstable; urgency=medium
+
+  * Upload to contrib (Closes: #876222)
+
+ -- Wookey <wookey@debian.org>  Thu, 19 Oct 2017 15:00:23 +0100
+
 mali-midgard (16.0-1) unstable; urgency=low
 
   * Initial packaging
