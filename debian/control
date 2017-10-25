@@ -3,7 +3,7 @@ Section: kernel
 Priority: optional
 Maintainer: Wookey <wookey@debian.org>
 Build-Depends: debhelper (>= 9), dkms (>= 1.95)
-Standards-Version: 3.9.8
+Standards-Version: 4.1.1
  
 Package: mali-midgard-dkms
 Architecture: all
