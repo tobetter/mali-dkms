@@ -1,7 +1,7 @@
 PACKAGE_VERSION="#MODULE_VERSION#"
 PACKAGE_NAME="mali-midgard"
 BUILT_MODULE_NAME[0]="mali_kbase"
-BUILD_EXCLUSIVE_ARCH="armhf|armel"
+BUILD_EXCLUSIVE_ARCH="armhf|armel|armv7l"
 MAKE[0]="make SCONS_CFLAGS='\
 -DCONFIG_MALI_MIDGARD=m \
 -DCONFIG_MALI_DEVFREQ=y \
@@ -13,7 +13,7 @@ CONFIG_MALI_DEVFREQ=y \
 CONFIG_MALI_EXPERT=y \
 CONFIG_MALI_BACKEND=gpu \
 CONFIG_MALI_PLATFORM_DEVICETREE=y"
-DEST_MODULE_LOCATION[0]="/kernel/drivers/gpu/"
+DEST_MODULE_LOCATION[0]="/extra/"
 AUTOINSTALL="yes"
 PATCH[0]=0001-gpu-midgard-replace-device-tree-compatible-strings.patch
 PATCH[1]=0002-gpu-midgard-drop-clk_mali-name.patch
