@@ -1,3 +1,9 @@
+mali-midgard (16.0-3) unstable; urgency=medium
+
+  * Include patches for 4.14 kernel
+
+ -- Wookey <wookey@debian.org>  Mon, 15 Jan 2018 20:14:39 +0000
+
 mali-midgard (16.0-2) unstable; urgency=medium
 
   * Upload to contrib (Closes: #876222)
