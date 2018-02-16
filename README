@@ -1,9 +1,0 @@
-This repository contains the out-of-tree Linux kernel driver for the
-ARM Mali Midgard GPU (T60x, T62x, T76x).  It is based on the r16p0
-release, called 16.0 in this Debian DKMS package.  It also contains
-some patches to make it work with mainline device tree bindings
-backported to v4.9 and 4.14 kernels.
-
-Tested on Firefly rk3288 board with Debian Jessie and Stretch using kernel
-package linux-image-4.9.0-3-armmp_4.9.30-2+deb9u3_armhf.deb from Stretch and
-its backport to Jessie.

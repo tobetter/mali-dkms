@@ -6,3 +6,4 @@ dtb-add-deferring-in-log-when-clock-or-regul.patch
 dtb-drop-clk_mali-name.patch
 dtb-look-for-lower-case-IRQ-names.patch
 dtb-replace-device-tree-comptible-strings.patch
+top-level-README.patch
