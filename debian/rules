@@ -8,7 +8,7 @@ VERSION	:= $(shell dpkg-parsechangelog -S Version | sed 's/-.*//')
 	dh $* --parallel --with dkms
 
 override_dh_install:
-	dh_install mali-midgard-$(VERSION) usr/src/
+	dh_install driver/product/kernel/drivers/gpu/arm/midgard/* usr/src/mali-midgard-$(VERSION)
 	find debian/mali-midgard-dkms/usr/src -type f -perm -5 -print0 2>/dev/null | xargs -0r chmod a-X
 
 override_dh_dkms:
