@@ -1,1 +1,5 @@
-build-on-linux-4.14.patch
+user-buf-map-api-update.patch
+use-vmf-struct-update.patch
+timestamp-zero-update.patch
+include-sched-mm-fix.patch
+
