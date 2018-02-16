@@ -2,7 +2,8 @@
 
 export DH_VERBOSE=1
 
-VERSION	:= $(shell dpkg-parsechangelog -S Version | sed 's/-.*//')
+#just use base version
+VERSION	:= $(shell dpkg-parsechangelog -S Version | sed 's/-.*//' | sed 's/+pristine//')
 
 %:
 	dh $* --parallel --with dkms
