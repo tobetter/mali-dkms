@@ -4,6 +4,8 @@ Priority: optional
 Maintainer: Wookey <wookey@debian.org>
 Build-Depends: debhelper (>= 9), dkms (>= 1.95)
 Standards-Version: 4.1.1
+Vcs-Browser: https://salsa.debian.org/wookey/mali-midgard
+Vcs-Git: https://salsa.debian.org/wookey/mali-midgard.git
  
 Package: mali-midgard-dkms
 Architecture: all
