@@ -1,3 +1,9 @@
+mali-midgard (16.0+pristine-2) unstale; urgency=medium
+
+  * Update patches for 4.15 kernel 
+
+ -- Wookey <wookey@debian.org>  Fri, 01 Jun 2018 14:47:34 +0000
+
 mali-midgard (16.0+pristine-1) unstable; urgency=medium
 
   * Include patches for 4.14 kernel
