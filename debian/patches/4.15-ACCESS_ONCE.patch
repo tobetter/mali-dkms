@@ -3,7 +3,7 @@ Author: Wookey <wookey@debian.org>
 Last-Update: 2018-06-02
 
 --- /dev/null
-+++ mali-midgard-16.0+pristine/driver/product/kernel/drivers/gpu/arm/midgard/patches/4.15_ACCESS_ONCE.patch
++++ mali-midgard-16.0+pristine/driver/product/kernel/drivers/gpu/arm/midgard/patches/4.15-ACCESS_ONCE.patch
 @@ -0,0 +1,44 @@
 +Description: Update for kernel change of ACCESS_ONCE -> READ/WRITE_ONCE
 +Author: Wookey <wookey@debian.org>

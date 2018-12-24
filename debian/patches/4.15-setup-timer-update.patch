@@ -3,12 +3,29 @@ Author: Wookey <wookey@debian.org>
 Last-Update: 2018-06-02
 
 --- /dev/null
-+++ mali-midgard-16.0+pristine/driver/product/kernel/drivers/gpu/arm/midgard/patches/4.15_setup_timer_update.patch
-@@ -0,0 +1,74 @@
++++ mali-midgard-16.0+pristine/driver/product/kernel/drivers/gpu/arm/midgard/patches/4.15-setup-timer-update.patch
+@@ -0,0 +1,86 @@
 +Description: Update for 4.15 setup_timer API change
 +Author: Wookey <wookey@debian.org>
 +Last-Update: 2018-06-02
 +
++This patch is due the changes provoked by series of commit ending
++at 513ae785c63c30741e46f43960213d4ae5382ec0, and removing the
++setup_timer macros.
++It replaces setup_timer calls with timer_setup calls.
++
++This changed was introduced in the 4.15-rc1.
++
++Signed-off-by: Myy Miouyouyou <myy@miouyouyou.fr>
++---
++ mali_kbase.h          | 2 +-
++ mali_kbase_context.c  | 4 ++--
++ mali_kbase_softjobs.c | 4 ++--
++ mali_kbase_tlstream.c | 6 ++----
++ 4 files changed, 7 insertions(+), 9 deletions(-)
++
++diff --git a/mali_kbase.h b/drivers/gpu/arm/midgard/mali_kbase.h
++index a4ceab9e0..27bde3b71 100644
 +--- a/mali_kbase.h
 ++++ b/mali_kbase.h
 +@@ -203,7 +203,7 @@ int kbase_soft_event_update(struct kbase
@@ -50,12 +67,7 @@ Last-Update: 2018-06-02
 + 	struct timer_list *timer = &kctx->soft_job_timeout;
 +--- a/mali_kbase_tlstream.c
 ++++ b/mali_kbase_tlstream.c
-+@@ -1029,18 +1029,15 @@ static void kbasep_tlstream_flush_stream
-+ 
-+ /**
-+  * kbasep_tlstream_autoflush_timer_callback - autoflush timer callback
-+- * @data:  unused
-+  *
++@@ -1034,13 +1034,11 @@ static void kbasep_tlstream_flush_stream
 +  * Timer is executed periodically to check if any of the stream contains
 +  * buffer ready to be submitted to user space.
 +  */
