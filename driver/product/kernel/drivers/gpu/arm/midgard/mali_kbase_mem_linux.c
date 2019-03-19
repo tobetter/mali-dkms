@@ -2183,6 +2183,10 @@ static struct kbase_aliased *get_aliased_alloc(struct vm_area_struct *vma,
 static vm_fault_t kbase_cpu_vm_fault(struct vm_area_struct *vma,
 			struct vm_fault *vmf)
 {
+#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0))
+static vm_fault_t kbase_cpu_vm_fault(struct vm_fault *vmf)
+{
+	struct vm_area_struct *vma = vmf->vma;
 #else
 static vm_fault_t kbase_cpu_vm_fault(struct vm_fault *vmf)
 {
