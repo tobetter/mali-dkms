@@ -1,5 +1,5 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Source: http://malideveloper.arm.com/resources/drivers/open-source-mali-midgard-gpu-kernel-drivers/
+Source: http://malideveloper.arm.com/resources/drivers/open-source-mali-bifrost-gpu-kernel-drivers/
 Comment: This package is not part of the Debian distribution because it is
  only useful with non-free software (Arm's binary Mali drivers). It is made
  available in the contrib section for the convenience of users.

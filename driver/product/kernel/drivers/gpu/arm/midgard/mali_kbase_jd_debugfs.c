@@ -1,77 +1,78 @@
 /*
  *
- * (C) COPYRIGHT 2014-2016 ARM Limited. All rights reserved.
+ * (C) COPYRIGHT 2014-2018 ARM Limited. All rights reserved.
  *
  * This program is free software and is provided to you under the terms of the
  * GNU General Public License version 2 as published by the Free Software
  * Foundation, and any use by you of this program is subject to the terms
  * of such GNU licence.
  *
- * A copy of the licence is included with the program, and can also be obtained
- * from Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA  02110-1301, USA.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, you can access it online at
+ * http://www.gnu.org/licenses/gpl-2.0.html.
+ *
+ * SPDX-License-Identifier: GPL-2.0
  *
  */
 
-
+#ifdef CONFIG_DEBUG_FS
 
 #include <linux/seq_file.h>
-
 #include <mali_kbase.h>
-
 #include <mali_kbase_jd_debugfs.h>
 #include <mali_kbase_dma_fence.h>
-
-#ifdef CONFIG_DEBUG_FS
+#if defined(CONFIG_SYNC) || defined(CONFIG_SYNC_FILE)
+#include <mali_kbase_sync.h>
+#endif
+#include <mali_kbase_ioctl.h>
 
 struct kbase_jd_debugfs_depinfo {
 	u8 id;
 	char type;
 };
 
-#ifdef CONFIG_SYNC
-#include <mali_kbase_sync.h>
-#include "sync.h"
-#endif /* CONFIG_SYNC */
-
-
 static void kbase_jd_debugfs_fence_info(struct kbase_jd_atom *atom,
 					struct seq_file *sfile)
 {
-#ifdef CONFIG_SYNC
-	struct sync_fence *fence = atom->fence;
-	int status;
+#if defined(CONFIG_SYNC) || defined(CONFIG_SYNC_FILE)
+	struct kbase_sync_fence_info info;
+	int res;
 
 	switch (atom->core_req & BASE_JD_REQ_SOFT_JOB_TYPE) {
 	case BASE_JD_REQ_SOFT_FENCE_TRIGGER:
-		if (!fence)
+		res = kbase_sync_fence_out_info_get(atom, &info);
+		if (0 == res) {
+			seq_printf(sfile, "Sa([%p]%d) ",
+				   info.fence, info.status);
 			break;
-
-		status = kbase_fence_get_status(fence);
-
-		seq_printf(sfile, "Sa([%p]%d) ",
-			 fence, status);
-		break;
+		}
 	case BASE_JD_REQ_SOFT_FENCE_WAIT:
-		if (!fence)
+		res = kbase_sync_fence_in_info_get(atom, &info);
+		if (0 == res) {
+			seq_printf(sfile, "Wa([%p]%d) ",
+				   info.fence, info.status);
 			break;
-
-		status = kbase_fence_get_status(fence);
-
-		seq_printf(sfile, "Wa([%p]%d) ",
-			 fence, status);
-		break;
+		}
 	default:
 		break;
 	}
-#endif /* CONFIG_SYNC */
+#endif /* CONFIG_SYNC || CONFIG_SYNC_FILE */
 
 #ifdef CONFIG_MALI_DMA_FENCE
 	if (atom->core_req & BASE_JD_REQ_EXTERNAL_RESOURCES) {
-		struct kbase_dma_fence_cb *cb;
+		struct kbase_fence_cb *cb;
 
 		if (atom->dma_fence.fence) {
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0))
 			struct fence *fence = atom->dma_fence.fence;
+#else
+			struct dma_fence *fence = atom->dma_fence.fence;
+#endif
 
 			seq_printf(sfile,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 8, 0))
@@ -81,13 +82,17 @@ static void kbase_jd_debugfs_fence_info(struct kbase_jd_atom *atom,
 #endif
 					fence->context,
 					fence->seqno,
-					fence_is_signaled(fence) ?
+					dma_fence_is_signaled(fence) ?
 						"signaled" : "active");
 		}
 
 		list_for_each_entry(cb, &atom->dma_fence.callbacks,
 				    node) {
+#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0))
 			struct fence *fence = cb->fence;
+#else
+			struct dma_fence *fence = cb->fence;
+#endif
 
 			seq_printf(sfile,
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 8, 0))
@@ -97,7 +102,7 @@ static void kbase_jd_debugfs_fence_info(struct kbase_jd_atom *atom,
 #endif
 					fence->context,
 					fence->seqno,
-					fence_is_signaled(fence) ?
+					dma_fence_is_signaled(fence) ?
 						"signaled" : "active");
 		}
 	}
@@ -185,9 +190,8 @@ static int kbasep_jd_debugfs_atoms_show(struct seq_file *sfile, void *data)
 		kbasep_jd_debugfs_atom_deps(deps, atom);
 
 		seq_printf(sfile,
-				"%3u, %8x, %2u, %2u, %c%3u %c%3u, %20lld, ",
+				"%3u, %8x, %2u, %c%3u %c%3u, %20lld, ",
 				i, atom->core_req, atom->status,
-				atom->coreref_state,
 				deps[0].type, deps[0].id,
 				deps[1].type, deps[1].id,
 				start_timestamp);

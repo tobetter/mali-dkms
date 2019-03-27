@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NAME=mali-midgard
+NAME=mali-bifrost
 VERSION=16.0
 
 set -e

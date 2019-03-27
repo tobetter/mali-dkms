@@ -3,7 +3,7 @@ This package is a kernel driver for the ARM Mali GPU, supporting the
 respectively). A corresponding binary userspace driver (separately
 packaged) is also needed to display graphics.
 
-In theory separate drivers are needed for midgard (6xx) GPUs and
+In theory separate drivers are needed for bifrost (6xx) GPUs and
 bifrost (7xx) GPUs, however currently the drivers are identical so
 this driver covers both. This could change in the future.
 
