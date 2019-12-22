@@ -20,10 +20,10 @@
  *
  */
 
-
-
 #ifndef _KBASE_UTILITY_H
 #define _KBASE_UTILITY_H
+
+#include <linux/compiler.h>
 
 #ifndef _KBASE_H_
 #error "Don't include this file directly, use mali_kbase.h instead"

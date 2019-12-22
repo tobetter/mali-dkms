@@ -1731,7 +1731,7 @@ KBASE_EXPORT_TEST_API(kbase_cpu_vm_close);
 static int kbase_cpu_vm_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 #else
-static int kbase_cpu_vm_fault(struct vm_fault *vmf)
+static vm_fault_t kbase_cpu_vm_fault(struct vm_fault *vmf)
 {
 	struct vm_area_struct *vma = vmf->vma;
 #endif
@@ -1763,7 +1763,7 @@ static int kbase_cpu_vm_fault(struct vm_fault *vmf)
 	addr = (pgoff_t)(vmf->address >> PAGE_SHIFT);
 #endif
 	while (i < map->alloc->nents && (addr < vma->vm_end >> PAGE_SHIFT)) {
-		int ret = vm_insert_pfn(vma, addr << PAGE_SHIFT,
+		int ret = vmf_insert_pfn(vma, addr << PAGE_SHIFT,
 		    PFN_DOWN(as_phys_addr_t(map->alloc->pages[i])));
 		if (ret < 0 && ret != -EBUSY)
 			goto locked_bad_fault;
@@ -1883,7 +1883,7 @@ static int kbase_cpu_mmap(struct kbase_context *kctx,
 			phys_addr_t phys;
 
 			phys = as_phys_addr_t(page_array[i + start_off]);
-			err = vm_insert_pfn(vma, addr, PFN_DOWN(phys));
+			err = vmf_insert_pfn(vma, addr, PFN_DOWN(phys));
 			if (WARN_ON(err))
 				break;
 
