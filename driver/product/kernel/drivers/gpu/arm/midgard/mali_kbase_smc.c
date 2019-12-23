@@ -54,6 +54,7 @@ static noinline u64 invoke_smc_fid(u64 function_id,
 			"smc    #0\n"
 			: "+r" (x0)
 			: "r" (x1), "r" (x2), "r" (x3));
+
 	return x0;
 }
 
