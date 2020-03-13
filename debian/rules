@@ -9,7 +9,7 @@ VERSION	:= $(shell dpkg-parsechangelog -S Version | sed 's/-.*//' | sed 's/+pris
 	dh $* --parallel --with dkms
 
 override_dh_install:
-	dh_install driver/product/kernel/drivers/gpu/arm/midgard/* usr/src/mali-bifrost-$(VERSION)
+	dh_install driver/product/kernel/* usr/src/mali-bifrost-$(VERSION)
 	find debian/mali-bifrost-dkms/usr/src -type f -perm -5 -print0 2>/dev/null | xargs -0r chmod a-X
 
 override_dh_dkms:
