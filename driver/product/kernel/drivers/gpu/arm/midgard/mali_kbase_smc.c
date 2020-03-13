@@ -1,6 +1,6 @@
 /*
  *
- * (C) COPYRIGHT 2015 ARM Limited. All rights reserved.
+ * (C) COPYRIGHT 2015, 2018 ARM Limited. All rights reserved.
  *
  * This program is free software and is provided to you under the terms of the
  * GNU General Public License version 2 as published by the Free Software
@@ -27,6 +27,8 @@
 
 #include <linux/compiler.h>
 
+/* __asmeq is not available on Kernel versions >= 4.20 */
+#ifndef __asmeq
 /*
  * This is used to ensure the compiler did actually allocate the register we
  * asked it for some inline assembly sequences.  Apparently we can't trust the
@@ -34,7 +36,6 @@
  * string is meant to be concatenated with the inline asm string and will
  * cause compilation to stop on mismatch.  (for details, see gcc PR 15089)
  */
-#ifndef __asmeq
 #define __asmeq(x, y)  ".ifnc " x "," y " ; .err ; .endif\n\t"
 #endif
 
