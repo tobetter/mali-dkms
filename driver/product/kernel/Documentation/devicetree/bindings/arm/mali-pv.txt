@@ -1,0 +1,106 @@
+# SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note
+#
+# (C) COPYRIGHT 2021 ARM Limited. All rights reserved.
+#
+# This program is free software and is provided to you under the terms of the
+# GNU General Public License version 2 as published by the Free Software
+# Foundation, and any use by you of this program is subject to the terms
+# of such GNU license.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, you can access it online at
+# http://www.gnu.org/licenses/gpl-2.0.html.
+#
+#
+
+* ARM Mali Midgard / Bifrost devices
+
+===========================
+gpu "arm,mali-arbiter" node
+===========================
+
+Describes the Arbiter, a SW component used to coordinate access to the GPU
+hardware by multiple GPU kernel driver instances.
+
+Required properties:
+
+- compatible : Should contain "arm,mali-arbiter".
+- #address-cells: Required to define address cell layout for children.
+- #size-cells: Required to define size cell layout for children.
+
+Optional:
+
+- platform : Phandle to mali_gpu_power instance.
+
+=============================
+gpu "arm,mali-gpu-power" node
+=============================
+
+Describes the optional power module used by the arbiter to control the GPU
+clock, power, and Dynamic Voltage and Frequency Scaling.
+
+The arbiter connects to the Mali power module if the "platform" attribute is
+present in Arbiter device tree node and is pointing to this node.
+
+Required properties:
+
+- compatible : Should contain "arm,mali-gpu-power".
+
+Optional:
+
+- clocks, clock-names : Refer to Documentation/devicetree/bindings/arm/mali-midgard.txt
+- operating-points : Entries for frequency (KHz) and voltage (uV)
+
+=========================
+gpu "arm,mali_arbif" node
+=========================
+
+Required to enable arbitration. Provides KBASE with an interface to the Arbiter.
+For more detail refere to the arbiter_if property in
+Documentation/devicetree/bindings/arm/mali-midgard.txt
+
+Required properties:
+
+- compatible : Should contain "arm,mali_arbif".
+- #address-cells: Required to define address cell layout for children.
+- #size-cells: Required to define size cell layout for children.
+
+
+An example configuration for the device tree:
+
+	gpu_power: mali_gpu_power {
+		compatible = "arm,mali-gpu-power";
+		clocks = <&scpi_dvfs 2>;
+		clock-names = "clk_mali";
+		operating-points = <
+			/* KHz uV */
+			50000 820000
+		>;
+	};
+
+	gpu_arbiter: mali_arb {
+		compatible = "arm,mali-arbiter";
+		#address-cells = <2>;
+		#size-cells = <2>;
+		platform = <&gpu_power>;
+	};
+
+	arb_if: mali_arbif {
+		compatible = "arm,mali_arbif";
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
+	};
+
+	gpu@0 {
+		compatible = "arm,mali-midgard";
+		reg = <0x0 0x0 0x0 0x1ffc0>;
+		interrupts = <0 168 4>, <0 168 4>, <0 168 4>;
+		interrupt-names = "JOB", "MMU", "GPU";
+		arbiter_if = <&arb_if>;
+	};
+

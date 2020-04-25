@@ -1,0 +1,55 @@
+# SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note OR MIT
+#
+# (C) COPYRIGHT 2020-2022 ARM Limited. All rights reserved.
+#
+# This program is free software and is provided to you under the terms of the
+# GNU General Public License version 2 as published by the Free Software
+# Foundation, and any use by you of this program is subject to the terms
+# of such GNU license.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, you can access it online at
+# http://www.gnu.org/licenses/gpl-2.0.html.
+#
+#
+
+config BSP_HAS_HYPERVISOR
+	bool "Kernel has a hypervisor enabled"
+
+config BUILD_EMU_ARBITER_MODULE
+	bool "Build an emulated arbiter"
+	depends on BUILD_KERNEL_MODULES
+	default n
+	default y if MALI_ARBITER_SUPPORT
+	help
+	  Build an emulated reference arbiter useful
+	  to test Mali without a Virtual Machine
+
+	  If unsure, say N.
+
+config BUILD_EMU_KBASE_MODULE
+	bool "Build an emulated kbase"
+	depends on BUILD_KERNEL_MODULES
+	default n
+	default y if MALI_ARBITER_SUPPORT
+	help
+	  Build an emulated kbase useful
+	  to test while arbitration is enabled
+
+	  If unsure, say N.
+
+config BUILD_VM_COMMS_TESTS
+	bool "Kernel has vm communication tests enabled"
+	depends on BUILD_KERNEL_MODULES
+	default n
+	default y if UNIT_TEST_KERNEL_MODULES && BSP_HAS_HYPERVISOR
+
+source_local "ptm/Mconfig"
+source_local "arbiter/Mconfig"
+source_local "power/Mconfig"
+source "kernel/drivers/xen/arm/Mconfig"
