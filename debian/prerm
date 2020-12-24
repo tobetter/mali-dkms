@@ -23,6 +23,13 @@ case "$1" in
     ;;
 esac
 
+if [ -f /etc/modprobe.d/blacklist-gpu.conf ]; then
+	sed -i "/panfrost/d" /etc/modprobe.d/blacklist-gpu.conf
+fi
+
+depmod -a
+update-initramfs -u
+
 #DEBHELPER#
 
 exit 0
