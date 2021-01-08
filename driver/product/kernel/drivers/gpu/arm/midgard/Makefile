@@ -20,7 +20,11 @@
 #
 
 
+ifeq ($(KERNELRELEASE),)
 KDIR ?= /lib/modules/$(shell uname -r)/build
+else
+KDIR ?= /lib/modules/$(KERNELRELEASE)/build
+endif
 
 BUSLOG_PATH_RELATIVE = $(CURDIR)/../../../..
 KBASE_PATH_RELATIVE = $(CURDIR)
