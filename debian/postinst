@@ -2,8 +2,7 @@
 # Copyright (C) 2002-2005 Flavio Stanchina
 # Copyright (C) 2005-2006 Aric Cyr
 # Copyright (C) 2007 Mario Limonciello
-# Copyright (C) 2009 Alberto Milone
-
+# Copyright (C) 2009 Alberto Milone 
 set -e
 
 NAME=mali-bifrost
@@ -47,6 +46,28 @@ sed -i "/panfrost/d" /etc/modprobe.d/blacklist-gpu.conf
 echo "blacklist panfrost" >> /etc/modprobe.d/blacklist-gpu.conf
 
 rm -f /etc/modprobe.d/mali_kbase.conf
+
+cat>/etc/initramfs/post-update.d/zz-mali-bifrost<<__EOF
+#!/bin/sh
+
+set -e
+
+FK_DIR="/usr/share/flash-kernel"
+
+. "\${FK_CHECKOUT:-\$FK_DIR}/functions"
+
+kvers="\$1"
+
+get_machine
+get_dtb_name
+
+fdtput -d /boot/dtbs/\$kvers/\$dtb_dir/\$dtb_name \
+		/soc/gpu@ffe40000 dma-coherent >/dev/null 2>&1 \
+	&& echo W: the property 'dma-coherent' in '/soc/gpu@ffe40000' is \
+		removed from /boot/dtbs/\$kvers/\$dtb_dir/\$dtb_name \
+	|| true 
+__EOF
+chmod +x /etc/initramfs/post-update.d/zz-mali-bifrost
 
 depmod -a
 update-initramfs -u

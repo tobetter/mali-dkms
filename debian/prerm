@@ -27,6 +27,8 @@ if [ -f /etc/modprobe.d/blacklist-gpu.conf ]; then
 	sed -i "/panfrost/d" /etc/modprobe.d/blacklist-gpu.conf
 fi
 
+rm -f /etc/initramfs/post-update.d/zz-mali-bifrost
+
 depmod -a
 update-initramfs -u
 
