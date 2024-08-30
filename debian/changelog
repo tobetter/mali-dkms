@@ -1,0 +1,6 @@
+mali-bifrost (51.0) unstable; urgency=medium
+
+  * Update GPU Kernel Driver 'BX304L01B-SW-99002-r51p0-00eac0.tar'
+    https://developer.arm.com/downloads/-/mali-drivers/bifrost-kernel
+
+ -- Dongjin Kim <tobetter@gmail.com>  Tue, 31 Jan 2023 16:33:21 +0900

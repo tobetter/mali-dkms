@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "blacklist mali_kbase" > /etc/modprobe.d/blacklist-mali.conf
+
+depmod -a
+update-initramfs -u
+
+#DEBHELPER#

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+#DEBHELPER#
+
+echo "blacklist panfrost" > /etc/modprobe.d/blacklist-mali.conf
+
+depmod -a
+update-initramfs -u
