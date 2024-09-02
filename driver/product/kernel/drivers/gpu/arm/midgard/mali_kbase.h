@@ -792,4 +792,12 @@ bool kbasep_adjust_prioritized_process(struct kbase_device *kbdev, bool add, uin
 #define UINT32_MAX ((uint32_t)0xFFFFFFFFU)
 #endif
 
+#if KERNEL_VERSION(6, 1, 83) <= LINUX_VERSION_CODE
+#define del_timer_sync	timer_delete_sync
+#endif
+
+#if KERNEL_VERSION(6, 1, 90) <= LINUX_VERSION_CODE
+#define del_timer	timer_delete
+#endif
+
 #endif
