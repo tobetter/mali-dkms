@@ -1,0 +1,6 @@
+# Device tree fix up for ARM Mali Bifrost driver
+fdt resize 2048
+fdt rm  /soc/gpu@ffe40000 dma-coherent
+fdt set /soc/gpu@ffe40000 power_policy always_on
+fdt set /soc/gpu@ffe40000 system-coherency <0>
+fdt set /soc/gpu@ffe40000 clock-names clk_mali
